@@ -9,3 +9,18 @@ phase 2 - play on tablou - can have no action
     -- ends by discarding
 
 */
+
+
+
+
+public class Player {
+
+    public Player() {
+
+    }
+
+
+
+
+
+}
