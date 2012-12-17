@@ -15,6 +15,9 @@ phase 2 - play on tablou - can have no action
 
 public class Player {
 
+    List<Card> hand = new ArrayList<Card>();
+    List<Card> foot = new ArrayList<Card>();
+
     public Player() {
 
     }
