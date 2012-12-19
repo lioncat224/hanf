@@ -11,18 +11,37 @@ phase 2 - play on tablou - can have no action
 */
 
 
-
+import java.util.*;
 
 public class Player {
 
     Deck hand = new Deck();
     Deck foot = new Deck();
+    String name;
+    Team team;
+    Tablou tablou;
 
-    public Player() {
+    public Player(Team t, Tablou b) {
+	this.team = t;
+	this.tablou = b;
+
+	Scanner scan = new Scanner(System.in);
+	System.out.print("What is your name? ");
+	name = scan.nextLine();
 
     }
 
+    public Team getTeam() {
+	return team;
+    }
 
+    public Tablou getTablou() {
+	return tablou;
+    }
+
+    public String toString() {	
+	return name;
+    }
 
 
 

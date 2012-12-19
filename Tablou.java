@@ -7,3 +7,30 @@ makes 7 cards in a row into a book - red if all the number - black if wilds/not 
 
 
  */
+
+
+import java.util.*;
+
+
+public class Tablou {
+    //hashmap will contain place holders for all card face values ( 4 - A ) 
+    HashMap<Card,Book> tablou = new HashMap<Card,Book>();
+    
+    
+    public Tablou() {
+	for (Card c : Card.values()) {
+	    tablou.put(c, new Book(c));
+	}
+
+    }
+
+    public boolean isTablouOpen() {
+	return tablou.isEmpty();
+    }
+    
+    public boolean isBookOpen(Card c) {
+	return tablou.get(c).isOpen();
+    }
+
+
+}

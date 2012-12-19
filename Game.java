@@ -44,10 +44,13 @@ public class Game {
     boolean finished = false;
     int[] initialPoints = {50, 90, 120, 150};
     int round = 0;
-    Team[] teams = { new Team(), new Team() };
+    Team[] teams = new Team[2];
     Deck drawPile, discardPile;
 
-    public Game() {       	
+    public Game() {  
+	teams[0] = new Team();
+	teams[1] = new Team();
+	
     }
 
     public static void main(String[] args) {
@@ -65,7 +68,7 @@ public class Game {
     }
 
     public void round(int initialPoints) {
-	discardPile = new Deck(); // clears discard pile
+	discardPile = new DiscardPile(); // clears discard pile
 	drawPile = fullDeck(); 
 	drawPile.shuffle();
 
@@ -83,14 +86,9 @@ public class Game {
 	while (!roundFinished) {
 	    
 
-
-
 	    team[0] // invoke player to take its turn;
 	    
-	    
-
-
-
+	  
 
 	    if (/*player has won = tablou has red and black book,
 		  no threes in either players hand(foot), 
@@ -107,9 +105,37 @@ public class Game {
 
     }
 
+    public void turn(Player p) {
+	//phase 1: player cannot do NAYTHING until they have EITHER drawn 2 cards from drawPile OR drawn top 7 cards from discardPile (as long as top card matches two natural cards in hand AND they must lay it down immediately AND can only use top card to count towards opening tablou if need be
 
+	boolean hasDrawn = false;
 
+	while (!hasDrawn) {
+	    
+	    Scanner scan = new Scanner();
+	    System.out.print(p+"'s turn. Draw from drawPile or discardPile? ");
+	    String input = scan.nextLine();
+	    
+	    if (input.equals("drawPile")) {
+		p.hand.addCard(drawPile.drawCard());
+		p.hand.addCard(drawPile.drawCard());
+		
+		hasDrawn = true;
+	    }
+	    
+	    if (input.equals("discardPile")) {
+		// need a way to check if the player has two of the same cards as the top card in discard pile, and that they have the required initial points to open up their tablou using only the top card if neccassry 
+		if ((p.hand.cardFrequency(discardPile.topCard()) >= 2)
+		    AND (p.getTablou().isOpen() OR // (p.tablou.count() +  )) {
+		   
+	      		
+			hasDrawn = true;
+		    }
+	    }
 
+	}
+
+    }
 
 }
 

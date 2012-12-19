@@ -13,7 +13,7 @@ import java.util.*;
 
 public class Deck {
     
-    List<Card> Deck = new ArrayList<Card>();
+    List<Card> deck = new ArrayList<Card>();
 
     public Deck() {	
     }
@@ -41,18 +41,18 @@ public class Deck {
     }
     
     public void addCard(Card c) {
-	this.Deck.add(c);
+	deck.add(c);
     }
 
     public Card drawCard() {
-	return this.Deck.remove(0);
+	return deck.remove(0);
     }
 
     public Deck fullDeck() {
 	Deck d = new Deck();
 	
 	for (int i = 0; i < 5; i++) {
-	    d.Deck.addAll(oneDeck().Deck);
+	    d.deck.addAll(oneDeck().deck);
 	}
 
 	return d;
@@ -60,18 +60,37 @@ public class Deck {
     
     public void shuffle() {
 	for (int i = 0; i < 50; i++) {
-	    for (Card c : this.Deck) {
+	    for (Card c : deck) {
 		int swap = (int)(Math.random()*SIZE);
 		
-		this.Deck.set(this.Deck.indexOf(c), this.Deck.get(swap));
-		this.Deck.set(swap, c); 
+		deck.set(deck.indexOf(c), deck.get(swap));
+		deck.set(swap, c); 
 	    }
 	}
     }
 
-
-
-
+    public boolean hasCard(Card c) {
+	
+	for (Card i : deck) {
+	    if (i == c) {
+		return true;
+	    }
+	}
+	return false;
+    }
+    
+    public int cardFrequency(Card c) {
+	int count = 0;
+	
+	for (Card i : deck) {
+	    if (i == c) {
+		count++;
+	    }
+	}
+	return count;
+    }
+    
+    
 }
 
 
