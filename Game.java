@@ -109,10 +109,13 @@ public class Game {
 	//phase 1: player cannot do NAYTHING until they have EITHER drawn 2 cards from drawPile OR drawn top 7 cards from discardPile (as long as top card matches two natural cards in hand AND they must lay it down immediately AND can only use top card to count towards opening tablou if need be
 
 	boolean hasDrawn = false;
+	boolean hasDiscarded = false;
+	//list of cards they have selected during their turn
+	List<Card> selected = new ArrayList<Card>();
 
 	while (!hasDrawn) {
 	    
-	    Scanner scan = new Scanner();
+	    Scanner scan = new Scanner(System.in);
 	    System.out.print(p+"'s turn. Draw from drawPile or discardPile? ");
 	    String input = scan.nextLine();
 	    
@@ -125,17 +128,77 @@ public class Game {
 	    
 	    if (input.equals("discardPile")) {
 		// need a way to check if the player has two of the same cards as the top card in discard pile, and that they have the required initial points to open up their tablou using only the top card if neccassry 
-		if ((p.hand.cardFrequency(discardPile.topCard()) >= 2)
-		    AND (p.getTablou().isOpen() OR // (p.tablou.count() +  )) {
-		   
+		if ((p.hand.cardFrequency(discardPile.topCard()) >= 2))
+		    && (p.getTablou().isOpen() || /* (p.getTablou.count() +  ) */ ) {
+			
 	      		
 			hasDrawn = true;
 		    }
-	    }
-
+	    }	
 	}
+	
+	while (!hasDiscarded) {
+	    
+	    if (!tablou.isOpen()) {
+		// have to select enough cards in hand to LEGALLY add up to required initial point value.
+		
+	    } else {
+		
+		Scanner scan = new Scanner(System.in);
+		System.out.print("\n\nSelect a card: ");
+		String input = scan.next();
+		Card selectedCard;
+		
+		for (Card c : p.hand) {
+		    if (input.equalsIgnoreCase(c.name())) {
+			selectedCard = c;
+		    }
+		}
+		
+		if (selectedCard == null) {
+		    System.out.print("Not in your hand!!!!!!!!");
+		    continue;
+		}
+		
+		System.out.print("\n\nType (1) to select another card, (2) to play selected card(s), (3) to discard: ");
+		input = scan.next();
+		
+		switch (input) {
+		case 1:
+		    selected.add(selectedCard);
+		    break;
+		case 2:
+		    // play selected card(s) -- add cards in 'selected' arraylist to tablou, they also need to specify which book to play wilds on, also cannot play threes on tablou, also must have selected at least 2 natural w/ one wild to open new book
+		    break;
+		case 3:
+		    discardPile.add(selectedCard);
+		    p.hand./*remove method to be written in Deck*/(selectedCard);
+		    hasDiscarded = true;
+		    break;
+		defualt:
+		    System.out.println("\n fail.");
+		    break;
+		}
+		   
+		
 
+		    
+	    }
+	    
+	}
+	
+	
     }
+    
+    public static int count(List<Card> selected) {
+	int count = 0;
+	for (Card c : selected) {
+	    count += c.getPointValue();
+	}
+	return count;
+    }
+	
+	    
 
 }
 
