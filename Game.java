@@ -27,47 +27,44 @@ taketurn - take something about game state (board?) - round will have player tak
 
  */
 
-
 /*  methods defined:
 
-  main(String[] args);
-  start();
+ main(String[] args);
+ start();
 
 
  */
 
-import java.util.*; 
+import java.util.*;
 
+public class Game {
 
-public class Game { 
+	boolean finished = false;
+	int[] initialPoints = { 50, 90, 120, 150 };
+	int round = 0;
+	Team[] teams = new Team[2];
+	Deck drawPile, discardPile;
 
-    boolean finished = false;
-    int[] initialPoints = {50, 90, 120, 150};
-    int round = 0;
-    Team[] teams = new Team[2];
-    Deck drawPile, discardPile;
+	public Game() {
+		teams[0] = new Team();
+		teams[1] = new Team();
 
-    public Game() {  
-	teams[0] = new Team();
-	teams[1] = new Team();
-	
-    }
-
-    public static void main(String[] args) {
-	
-	new Game().start();
-
-    }
-
-
-    public void start() {
-	while(!finished) {
-	    round(initialPoints[round]);
-	    
 	}
-    }
 
-    public void round(int initialPoints) {
+	public static void main(String[] args) {
+
+		new Game().start();
+
+	}
+
+	public void start() {
+		while (!finished) {
+			round(initialPoints[round]);
+
+		}
+	}
+
+	public void round(int initialPoints) {
 	discardPile = new DiscardPile(); // clears discard pile
 	drawPile = fullDeck(); 
 	drawPile.shuffle();
@@ -105,7 +102,7 @@ public class Game {
 
     }
 
-    public void turn(Player p) {
+	public void turn(Player p) {
 	//phase 1: player cannot do NAYTHING until they have EITHER drawn 2 cards from drawPile OR drawn top 7 cards from discardPile (as long as top card matches two natural cards in hand AND they must lay it down immediately AND can only use top card to count towards opening tablou if need be
 
 	boolean hasDrawn = false;
@@ -175,7 +172,7 @@ public class Game {
 		    System.out.println("Specify which book to play cards on or type 'new': ");
 		    input = scan.next();
 		    try { Card bookKey = Card.fromString(input); }
-		    catch (NotFoundException) { break; }
+		    catch (NoSuchElementException) { break; }
 			
 		    //should the game or the tablou handle the acutal placement? we have the information we need to put the cards in the desired location, but we have not yet checked if the move is legal or acutally done anything with it
 		    p.tablou.addCards(selected,bookKey); 
@@ -201,34 +198,13 @@ public class Game {
 	
 	
     }
-    
-    public static int count(List<Card> selected) {
-	int count = 0;
-	for (Card c : selected) {
-	    count += c.getPointValue();
+
+	public static int count(List<Card> selected) {
+		int count = 0;
+		for (Card c : selected) {
+			count += c.getPointValue();
+		}
+		return count;
 	}
-	return count;
-    }
-	
-	    
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
