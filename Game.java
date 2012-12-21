@@ -43,7 +43,8 @@ public class Game {
 	int[] initialPoints = { 50, 90, 120, 150 };
 	int round = 0;
 	Team[] teams = new Team[2];
-	Deck drawPile, discardPile;
+	Deck drawPile;
+	DiscardPile discardPile;
 
 	public Game() {
 		teams[0] = new Team();
@@ -66,14 +67,14 @@ public class Game {
 
 	public void round(int initialPoints) {
 	discardPile = new DiscardPile(); // clears discard pile
-	drawPile = fullDeck(); 
+	drawPile = drawPile.fullDeck(); 
 	drawPile.shuffle();
 
 	for (int i = 0; i < 11; i++) {
-	    for (team t : teams) {
-		for (Player p : t) {
-		    p.hand.addCard(Deck.drawCard());
-		    p.foot.addCard(Deck.drawCard());
+	    for (Team t : teams) {
+		for (Player p : t.players) { //cannot use for-each loops with arraylists????! =(
+		    p.hand.addCard(drawPile.drawCard());
+		    p.foot.addCard(drawPile.drawCard());
 		}
        	    }
 	}
@@ -136,7 +137,7 @@ public class Game {
 	
 	while (!hasDiscarded) {
 	    
-	    if (!tablou.isOpen()) {
+		if (!p.tablou.isTablouOpen()) {
 		// have to select enough cards in hand to LEGALLY add up to required initial point value.
 		
 	    } else {
@@ -146,7 +147,7 @@ public class Game {
 		String input = scan.next();
 		Card selectedCard;
 		
-		for (Card c : p.hand) {
+		for (Card c : p.hand.deck) { //cannot use for -each loops with arraylists????! =(
 		    if (input.equalsIgnoreCase(c.name())) {
 			selectedCard = c;
 			break;
@@ -165,22 +166,23 @@ public class Game {
 		input = scan.next();
 		
 		switch (input) {
-		case 1:
+		case "1":
 		    selected.add(selectedCard);
 		    break;
-		case 2:
+		case "2":
 		    System.out.println("Specify which book to play cards on or type 'new': ");
 		    input = scan.next();
-		    try { Card bookKey = Card.fromString(input); }
-		    catch (NoSuchElementException) { break; }
+		    Card bookKey;
+		    try { bookKey = Card.fromString(input); }
+		    catch (NoSuchElementException e) { e.printStackTrace(); break; }
 			
 		    //should the game or the tablou handle the acutal placement? we have the information we need to put the cards in the desired location, but we have not yet checked if the move is legal or acutally done anything with it
 		    p.tablou.addCards(selected,bookKey); 
 
 		    // play selected card(s) -- add cards in 'selected' arraylist to tablou, they also need to specify which book to play wilds on, also cannot play threes on tablou, also must have selected at least 2 natural w/ one wild to open new book
 		    break;
-		case 3:
-		    discardPile.add(selectedCard);
+		case "3":
+		    discardPile.addCard(selectedCard);
 		    p.hand./*remove method to be written in Deck*/(selectedCard);
 		    hasDiscarded = true;
 		    break;

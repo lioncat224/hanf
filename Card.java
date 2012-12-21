@@ -29,7 +29,7 @@ public enum Card {
 		return this.isWild;
 	}
 
-	public Card fromString(String card) throws NoSuchElementException {
+	public static Card fromString(String card) throws NoSuchElementException {
 		for (Card c : Card.values()) {
 			if (card.equalsIgnoreCase(c.name())) {
 				return c;
