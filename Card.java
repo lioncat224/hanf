@@ -30,4 +30,15 @@ public enum Card {
 	return this.isWild;
     }
 
+    public Card fromString(String card) throws NotFoundException {
+	for (Card c: Card.values()) {
+	    if (card.equalsIgnoreCase(c.name())) {
+		return c;
+	    }
+	}
+	throw new NotFoundException("Card does not exist: "+card);
+    }
+
+
+
 }

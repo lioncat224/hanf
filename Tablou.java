@@ -31,6 +31,13 @@ public class Tablou {
     public boolean isBookOpen(Card c) {
 	return tablou.get(c).isOpen();
     }
+    
+    public void addCards(List<Card> selected, Card bookKey) {
+	for (Card c : selected) {
+	    (tablou.get(bookKey)).addCard(c);
+	}
+    }
+    
 
 
 }

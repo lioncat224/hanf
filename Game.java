@@ -152,6 +152,7 @@ public class Game {
 		for (Card c : p.hand) {
 		    if (input.equalsIgnoreCase(c.name())) {
 			selectedCard = c;
+			break;
 		    }
 		}
 		
@@ -159,6 +160,9 @@ public class Game {
 		    System.out.print("Not in your hand!!!!!!!!");
 		    continue;
 		}
+
+		// error check for adding cards to 'selected' arraylist -- must be same value as prior with expection of wilds 
+
 		
 		System.out.print("\n\nType (1) to select another card, (2) to play selected card(s), (3) to discard: ");
 		input = scan.next();
@@ -168,6 +172,14 @@ public class Game {
 		    selected.add(selectedCard);
 		    break;
 		case 2:
+		    System.out.println("Specify which book to play cards on or type 'new': ");
+		    input = scan.next();
+		    try { Card bookKey = Card.fromString(input); }
+		    catch (NotFoundException) { break; }
+			
+		    //should the game or the tablou handle the acutal placement? we have the information we need to put the cards in the desired location, but we have not yet checked if the move is legal or acutally done anything with it
+		    p.tablou.addCards(selected,bookKey); 
+
 		    // play selected card(s) -- add cards in 'selected' arraylist to tablou, they also need to specify which book to play wilds on, also cannot play threes on tablou, also must have selected at least 2 natural w/ one wild to open new book
 		    break;
 		case 3:
